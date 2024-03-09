@@ -43,4 +43,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    // get users and profiles name
+    public function perfil()
+    {
+        return $this->belongsTo(Perfil::class, 'idperfil');
+    }
+
+    
 }
