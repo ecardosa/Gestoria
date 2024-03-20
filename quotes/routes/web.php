@@ -8,6 +8,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\AdminPanelController;
 use App\Http\Controllers\ProfilePanelController;
 use App\Http\Controllers\CompaniesPanelController;
+use App\Http\Controllers\ConceptTypePanelController;
 
 
 /*
@@ -40,6 +41,8 @@ Route::delete('/profile-panel/delete-profile/{id}', [ProfilePanelController::cla
 Route::get('/companies-panel', [CompaniesPanelController::class, 'index'])->name('companies-panel');
 Route::get('/companies-panel/get-companies', [CompaniesPanelController::class, 'getCompanies'])->name('companies-panel.get-companies');
 Route::get('/companies-panel/get-profiles', [CompaniesPanelController::class, 'getProfiles'])->name('companies-panel.get-profiles');
+
+Route::get('/concept-type-panel', [ConceptTypePanelController::class, 'index'])->name('concept-type-panel');
 
 
 Route::get('/dashboard', function () {

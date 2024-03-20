@@ -38,6 +38,9 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink :href="route('companies-panel')" :active="route().current('companies-panel')">
                                     Empreses
                                 </NavLink>
+                                <NavLink :href="route('concept-type-panel')" :active="route().current('concept-type-panel')">
+                                    Tipus de Conceptes
+                                </NavLink>
                             </div>
                         </div>
 
