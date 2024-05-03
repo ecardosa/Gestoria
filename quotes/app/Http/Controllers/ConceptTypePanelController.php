@@ -8,6 +8,8 @@ use Illuminate\Routing\Controller as BaseController;
 use Inertia\Inertia;
 use App\Models\User;
 Use App\Models\Perfil;
+Use App\Models\TipoConcepto;
+
 
 class ConceptTypePanelController extends BaseController
 {
@@ -17,5 +19,12 @@ class ConceptTypePanelController extends BaseController
     {
         // inertia render return profile panel
         return Inertia::render('ConceptTypePanel');
+    }
+
+    // get all concept types
+    public function getConceptTypes()
+    {
+        $conceptTypes = TipoConcepto::all();
+        return response()->json($conceptTypes);
     }
 }

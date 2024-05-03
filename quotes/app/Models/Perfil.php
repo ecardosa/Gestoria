@@ -8,4 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Perfil extends Model
 {
     use HasFactory;
+
+    protected $table = 'perfils';
+
+    protected $fillable = [
+        'nomPerfil',
+    ];
+
+    public function users()
+    {
+        return $this->hasMany(User::class, 'idperfil');
+    }
+
+
 }

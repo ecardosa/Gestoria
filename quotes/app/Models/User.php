@@ -50,5 +50,10 @@ class User extends Authenticatable
         return $this->belongsTo(Perfil::class, 'idperfil');
     }
 
-    
+    // registroentrada
+    public function registroentrada()
+    {
+        return $this->hasMany(RegistroEntrada::class, 'idUsuario
+        ');
+    }
 }

@@ -9,6 +9,13 @@ use App\Http\Controllers\AdminPanelController;
 use App\Http\Controllers\ProfilePanelController;
 use App\Http\Controllers\CompaniesPanelController;
 use App\Http\Controllers\ConceptTypePanelController;
+use App\Http\Controllers\ConceptPanelController;
+use App\Http\Controllers\ConceptRegisterPanelController;
+use App\Http\Controllers\RegisterPanelController;
+use App\Http\Controllers\UsersController;
+use App\Http\Controllers\ProfilesController;
+use App\Http\Controllers\CompaniesController;
+use App\Http\Controllers\ConceptsTypesController;
 
 
 /*
@@ -43,7 +50,14 @@ Route::get('/companies-panel/get-companies', [CompaniesPanelController::class, '
 Route::get('/companies-panel/get-profiles', [CompaniesPanelController::class, 'getProfiles'])->name('companies-panel.get-profiles');
 
 Route::get('/concept-type-panel', [ConceptTypePanelController::class, 'index'])->name('concept-type-panel');
+Route::get('/concept-type-panel/get-concept-types', [ConceptTypePanelController::class, 'getConceptTypes'])->name('concept-type-panel.get-concept-types');
 
+Route::get('/concept-panel', [ConceptPanelController::class, 'index'])->name('concept-panel');
+Route::get('/concept-panel/get-concepts', [ConceptPanelController::class, 'getConcepts'])->name('concept-panel.get-concepts');
+
+Route::get('/concept-register-panel', [ConceptRegisterPanelController::class, 'index'])->name('concept-register-panel');
+
+Route::get('/register-panel', [RegisterPanelController::class, 'index'])->name('register-panel');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -54,5 +68,11 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+
+Route::resource('users', UsersController::class);
+Route::resource('profiles', ProfilesController::class);
+Route::resource('companies', CompaniesController::class);
+Route::resource('concepts-types', ConceptsTypesController::class);
 
 require __DIR__.'/auth.php';

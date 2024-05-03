@@ -9,7 +9,7 @@ import { Head, Link, useForm } from '@inertiajs/vue3';
 const form = useForm({
     name: '',
     email: '',
-    idperfil: '',
+  
     password: '',
     password_confirmation: '',
 });
@@ -57,7 +57,7 @@ const submit = () => {
                 <InputError class="mt-2" :message="form.errors.email" />
             </div>
 
-            <div class="mt-4">
+            <!-- <div class="mt-4">
                 <InputLabel for="idperfil" value="Perfil" />
 
                 <TextInput
@@ -70,7 +70,7 @@ const submit = () => {
                 />
 
                 <InputError class="mt-2" :message="form.errors.idperfil" />
-            </div>
+            </div> -->
 
             <div class="mt-4">
                 <InputLabel for="password" value="Contrasenya" />

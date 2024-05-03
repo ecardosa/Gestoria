@@ -14,45 +14,42 @@ const showingNavigationDropdown = ref(false);
 <template>
    <div>
         <div class=" bg-gray-100">
-            <nav class="bg-white border-b border-gray-100">
-                <!-- Primary Navigation Menu -->
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav class="bg-black border-b border-gray-100">
+             
+        
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
                     <div class="flex justify-between h-16">
                         <div class="flex">
                             <!-- Logo -->
+                            
                             <div class="shrink-0 flex items-center">
-                                
+                                <img src="/assets/img/logo.png" alt="Logo" class="h-16 w-auto" />
                             </div>
 
                             <!-- Navigation Links -->
-                            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
+                            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex text-white">
+                                <NavLink :href="route('dashboard')" :active="route().current('dashboard')" class="text-white hover:text-orange-400">
                                    Pàgina principal
                                 </NavLink>
-                                <NavLink :href="route('admin-panel')" :active="route().current('admin-panel')">
-                                    Usuaris
-                                </NavLink>
-                                <NavLink :href="route('profile-panel')" :active="route().current('profile-panel')">
-                                    Perfils
-                                </NavLink>
-                                <NavLink :href="route('companies-panel')" :active="route().current('companies-panel')">
+                                <NavLink :href="route('companies.index')" :active="route().current('companies.index')" class="text-white hover:text-orange-400">
                                     Empreses
                                 </NavLink>
-                                <NavLink :href="route('concept-type-panel')" :active="route().current('concept-type-panel')">
+                                <NavLink :href="route('concepts-types.index')" :active="route().current('concepts-types.index')" class="text-white hover:text-orange-400">
                                     Tipus de Conceptes
                                 </NavLink>
                             </div>
                         </div>
 
-                        <div class="hidden sm:flex sm:items-center sm:ms-6">
+                        <div class="hidden sm:flex sm:items-center sm:ms-6 bg-black">
                             <!-- Settings Dropdown -->
-                            <div class="ms-3 relative">
+                            <div class="ms-3 relative ">
                                 <Dropdown align="right" width="48">
                                     <template #trigger>
-                                        <span class="inline-flex rounded-md">
+                                        <span class="inline-flex rounded-md bg-black">
                                             <button
                                                 type="button"
-                                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
+                                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 text-white font-medium rounded-md text-gray-500 bg-black hover:text-orange-400 focus:outline-none transition ease-in-out duration-150"
                                             >
                                                 {{ $page.props.auth.user.name }}
 
@@ -74,6 +71,8 @@ const showingNavigationDropdown = ref(false);
 
                                     <template #content>
                                         <DropdownLink :href="route('profile.edit')"> Perfil </DropdownLink>
+                                        <DropdownLink :href="route('users.index')"> Panell d'usuaris </DropdownLink>
+                                        <DropdownLink :href="route('profiles.index')"> Panell de perfils </DropdownLink>
                                         <DropdownLink :href="route('logout')" method="post" as="button">
                                             Tancar sessió
                                         </DropdownLink>
@@ -133,6 +132,22 @@ const showingNavigationDropdown = ref(false);
                         <ResponsiveNavLink :href="route('companies-panel')" :active="route().current('companies-panel')">
                             Empreses
                         </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('concept-type-panel')" :active="route().current('concept-type-panel')">
+                            Tipus de Conceptes
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('concept-panel')" :active="route().current('concept-panel')">
+                            Conceptes
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('register-panel')" :active="route().current('register-panel')">
+                            Registres
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink >
+                            Historics
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink >
+                            Quotes
+                        </ResponsiveNavLink>
+
                     </div>
 
                     <!-- Responsive Settings Options -->

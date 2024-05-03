@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useForm } from '@inertiajs/vue3';
 import Header from '@/Components/Header.vue';
+import Button from '@/Components/Button.vue';
 
 const companies = ref([]);
 const profiles = ref([]);
@@ -101,7 +102,7 @@ const addCompany = () => {
                         <td>{{ company.nomEmpresa}}</td>
                         <td>{{ company.perfil ? company.perfil.nomPerfil : 'Sense perfil' }}</td>
                         <td class="flex justify-end space-x-2">
-                            <button class="btn btn-outline">Editar</button>
+                            <Button text="Editar" />
                             <button class="btn btn-outline" @click="deleteCompany(company.id)">Eliminar</button>
                         </td>
                        
