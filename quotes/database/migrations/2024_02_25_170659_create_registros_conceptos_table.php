@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('registros_conceptos', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->unsignedBigInteger('idEmpresa');
-            $table->unsignedBigInteger('idConcepto');
+            $table->unsignedBigInteger('idEmpresa')->nullable();
+            $table->unsignedBigInteger('idConcepto')->nullable();
             $table->integer('unidades');
             $table->foreign('idEmpresa')->references('id')->on('empresas');
             $table->foreign('idConcepto')->references('id')->on('conceptos');

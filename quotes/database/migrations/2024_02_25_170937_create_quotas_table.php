@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('quotas', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->unsignedBigInteger('idEmpresa');
+            $table->unsignedBigInteger('idEmpresa')->nullable();
             $table->integer('nif');
-            $table->unsignedBigInteger('idTipoQuota');
+            $table->unsignedBigInteger('idTipoQuota')->nullable();
             $table->float('importePropuesta');
             $table->date('fechaPropuesta');
             $table->date('fechaAceptacion');
