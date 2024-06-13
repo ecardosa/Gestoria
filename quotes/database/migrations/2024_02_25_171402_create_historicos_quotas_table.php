@@ -14,21 +14,19 @@ return new class extends Migration
         Schema::create('historicos_quotas', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->unsignedBigInteger('idQuota');
-            $table->unsignedBigInteger('idEmpresa');
+            $table->integer('idQuota');
+            $table->integer('idEmpresa');
+            $table->string('nombreEmpresa');
             $table->integer('nif');
-            $table->unsignedBigInteger('idTipoQuota');
+            $table->integer('idTipoQuota')->nullable();
+            $table->string('nombreTipoQuota')->nullable();
             $table->float('importePropuesta');
-            $table->date('fechaPropuesta');
-            $table->date('fechaAceptacion');
+            $table->date('fechaPropuesta')->nullable();
+            $table->date('fechaAceptacion')->nullable();
             $table->date('fechaInicial');
             $table->date('fechaFinal');
             $table->boolean('aceptada');
             $table->string('comentarios');
-
-            $table->foreign('idQuota')->references('id')->on('quotas');
-            $table->foreign('idEmpresa')->references('id')->on('empresas');
-            $table->foreign('idTipoQuota')->references('id')->on('tipos_conceptos');    
         });
     }
 

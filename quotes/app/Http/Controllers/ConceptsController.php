@@ -3,20 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Inertia\Inertia;
+use Inertia\Inertia;   
+use App\Models\Concepto; 
 use App\Models\TipoConcepto;
-use App\Models\Concepto;
 
-class ConceptsTypesController extends Controller
+
+class ConceptsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $conceptTypes = TipoConcepto::all();
-        return Inertia::render('ConceptsTypes/Index', [
-            'conceptTypes' => $conceptTypes
+        $concepts = Concepto::with('tipoConcepto')->get();
+        $conceptsTypes = TipoConcepto::all();
+        return Inertia::render('Concepts/Index', [
+            'concepts' => $concepts,
+            'conceptsTypes' => $conceptsTypes
         ]);
     }
 
@@ -34,12 +37,14 @@ class ConceptsTypesController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nombreTipo' => 'required',
+            'nombreConceptoCorto' => 'required',
+            'nombreConceptoLargo' => 'required',
+            'precio' => 'required',
+            'idTipo' => 'required'
         ]);
 
-        TipoConcepto::create($request->all());
-
-        return redirect()->route('concepts-types.index');
+        Concepto::create($request->all());
+        return redirect()->route('concepts.index');
     }
 
     /**
@@ -71,16 +76,8 @@ class ConceptsTypesController extends Controller
      */
     public function destroy(string $id)
     {
-        $conceptType = TipoConcepto::find($id);
-        $concepts = Concepto::where('idTipo', $id)->get();
-        foreach ($concepts as $concept) {
-            $concept->idTipo = null;
-            $concept->save();
-        }
-
-
-        $conceptType->delete();
-
-        return redirect()->route('concepts-types.index');
+        $concept = Concepto::find($id);
+        $concept->delete();
+        return redirect()->route('concepts.index');
     }
 }

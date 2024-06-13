@@ -1,9 +1,16 @@
 <script setup>
 import Header from '@/Components/Header.vue';
-import { Link } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
 import Modal from '@/Components/Modal.vue';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useForm } from '@inertiajs/vue3';
+import Search from '@/Components/Search.vue'; // Importa tu componente del buscador
+
+const { props } = usePage();
+const users = ref(props.users);
+console.log(users);
+const profiles = ref(props.profiles);
+console.log(profiles);
 
 const form = useForm({
     name: '',
@@ -33,15 +40,35 @@ const closeModal = (userId) => {
     delete editState.value[userId];
 };
 
+const searchValue = ref('');
+
+// Computed para filtrar los usuarios
+// const filteredUsers = computed(() => {
+//     if (!searchValue.value) {
+//         return users.value;
+//     }
+//     return users.value.filter(user => {
+//         const searchString = searchValue.value.toLowerCase();
+//         return (
+//             user.name.toLowerCase().includes(searchString) ||
+//             user.email.toLowerCase().includes(searchString) ||
+//             (user.perfil && user.perfil.nomPerfil.toLowerCase().includes(searchString)) ||
+//             (user.registroentrada.length && user.registroentrada[0].fecha.toLowerCase().includes(searchString))
+//         );
+//     });
+// });
+
 </script>
 
 <template>
     <div class="bg-gray-100">
         <Header />
-
+        <div class="flex items-center justify-between p-6 space-x-6">
+        <Search v-model="searchValue" />
         <button class="btn btn-outline" @click="showModalUser()">
             Afegir usuari
         </button>
+
         <Modal :show="editState['new']" @close="closeModal('new')">
             <div class="p-6">
                 <h2 class="text-lg font-medium text-gray-900">
@@ -92,26 +119,29 @@ const closeModal = (userId) => {
                 </form>
             </div>
         </Modal>
-
-
-        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto relative mt-16">
-            <table class="table">
+</div>
+        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto relative">
+            <table class="table ">
                 <thead>
                     <tr>
                         <th></th>
                         <th>Nom</th>
                         <th>Correu</th>
                         <th>Perfil</th>
+                        <th>Última entrada</th>
                         <th></th>
                         <th>Accions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="user in $page.props.users" :key="user.id">
+                    <tr v-for="user in $page.props.users" :key="user.id"> 
                         <th></th>
                         <td>{{ user.name }}</td>
                         <td>{{ user.email }}</td>
                         <td>{{ user.perfil ? user.perfil.nomPerfil : 'Sense perfil' }}</td>
+                        <td>
+                            {{ user.registroentrada.length ? user.registroentrada[0].fecha : 'Sense registre' }}
+                        </td>
                         <td class="text-right">
                             <button class="btn btn-outline" :value="user.id" @click="showModal(user)">
                                 Editar

@@ -36,7 +36,13 @@ class ProfilesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nomPerfil' => 'required',
+        ]);
+
+        Perfil::create($request->all());
+
+        return redirect()->route('profiles.index');
     }
 
     /**

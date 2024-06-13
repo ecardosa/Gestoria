@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('nombreConceptoCorto');
             $table->string('nombreConceptoLargo');
             $table->float('precio');
-            $table->unsignedBigInteger('idTipo');
+            $table->unsignedBigInteger('idTipo')->nullable();
             $table->foreign('idTipo')->references('id')->on('tipos_conceptos');
         });
     }

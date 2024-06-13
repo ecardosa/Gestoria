@@ -4,19 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use App\Models\TipoConcepto;
-use App\Models\Concepto;
+use App\Models\HistoricoQuota;
 
-class ConceptsTypesController extends Controller
+class QuotasHistoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $conceptTypes = TipoConcepto::all();
-        return Inertia::render('ConceptsTypes/Index', [
-            'conceptTypes' => $conceptTypes
+        $quotasHistory = HistoricoQuota::with('empresa.perfil', 'tipoQuota', 'quota')->get();
+        return Inertia::render('QuotaHistory/Index', [
+            'quotasHistory' => $quotasHistory
         ]);
     }
 
@@ -33,13 +32,7 @@ class ConceptsTypesController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'nombreTipo' => 'required',
-        ]);
-
-        TipoConcepto::create($request->all());
-
-        return redirect()->route('concepts-types.index');
+        //
     }
 
     /**
@@ -71,16 +64,6 @@ class ConceptsTypesController extends Controller
      */
     public function destroy(string $id)
     {
-        $conceptType = TipoConcepto::find($id);
-        $concepts = Concepto::where('idTipo', $id)->get();
-        foreach ($concepts as $concept) {
-            $concept->idTipo = null;
-            $concept->save();
-        }
-
-
-        $conceptType->delete();
-
-        return redirect()->route('concepts-types.index');
+        //
     }
 }

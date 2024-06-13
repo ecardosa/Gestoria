@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\User;
 use App\Models\Perfil;
-
+use App\Models\RegistroEntrada;
 
 
 class UsersController extends Controller
@@ -16,9 +16,10 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = User::with('perfil')->get();
+       
+        $users = User::with('perfil')->with('registroentrada')->get();
         $profiles = Perfil::all();
-
+     
         return Inertia::render('Users/Index', [
             'users' => $users,
             'profiles' => $profiles,

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\RegistroEntrada;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -34,6 +35,8 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        $this->authenticated($request, Auth::user());
+
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 
@@ -50,4 +53,16 @@ class AuthenticatedSessionController extends Controller
 
         return redirect('/');
     }
+
+    /**
+     * If authenticated, insert in RegistroEntrada table, the user id and the current date and time.
+     */
+    protected function authenticated(Request $request, $user)
+    {
+        $registroEntrada = new RegistroEntrada();
+        $registroEntrada->idUsuario = $user->id;
+        $registroEntrada->fecha = now();
+        $registroEntrada->save();
+    }
+   
 }

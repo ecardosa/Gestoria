@@ -12,32 +12,80 @@ const showingNavigationDropdown = ref(false);
 </script>
 
 <template>
-   <div>
+    <div>
         <div class=" bg-gray-100">
             <nav class="bg-black border-b border-gray-100">
-             
-        
-
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
                     <div class="flex justify-between h-16">
                         <div class="flex">
-                            <!-- Logo -->
-                            
                             <div class="shrink-0 flex items-center">
                                 <img src="/assets/img/logo.png" alt="Logo" class="h-16 w-auto" />
                             </div>
-
-                            <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex text-white">
-                                <NavLink :href="route('dashboard')" :active="route().current('dashboard')" class="text-white hover:text-orange-400">
-                                   Pàgina principal
+                                <NavLink :href="route('dashboard')" :active="route().current('dashboard')"
+                                    class="text-white hover:text-orange-400">
+                                    Pàgina principal
                                 </NavLink>
-                                <NavLink :href="route('companies.index')" :active="route().current('companies.index')" class="text-white hover:text-orange-400">
+                                <NavLink :href="route('companies.index')" :active="route().current('companies.index')"
+                                    class="text-white hover:text-orange-400">
                                     Empreses
                                 </NavLink>
-                                <NavLink :href="route('concepts-types.index')" :active="route().current('concepts-types.index')" class="text-white hover:text-orange-400">
-                                    Tipus de Conceptes
-                                </NavLink>
+                                <div
+                                    class="inline-flex items-center px-1  text-sm font-medium leading-5 text-gray-900 focus:outline-none  transition duration-150 ease-in-out">
+                                    <Dropdown width="48">
+                                        <template #trigger>
+                                            <span class="inline-flex rounded-md bg-black">
+                                                <button type="button"
+                                                    class="inline-flex items-center py-2 border border-transparent text-sm leading-4 text-white font-medium rounded-md text-gray-500 bg-black hover:text-orange-400 focus:outline-none transition ease-in-out duration-150">
+                                                    Conceptes
+
+                                                    <svg class="ms-2 -me-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 20 20" fill="currentColor">
+                                                        <path fill-rule="evenodd"
+                                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                            clip-rule="evenodd" />
+                                                    </svg>
+                                                </button>
+                                            </span>
+                                        </template>
+
+                                        <template #content>
+                                            <DropdownLink :href="route('concepts.index')"> Conceptes </DropdownLink>
+                                            <DropdownLink :href="route('concepts-types.index')"> Tipus de conceptes
+                                            </DropdownLink>
+                                            <DropdownLink :href="route('concepts-registers.index')"> Registre de
+                                                conceptes </DropdownLink>
+                                            <DropdownLink :href="route('concepts-registers-history.index')"> Historic de
+                                                registre de conceptes </DropdownLink>
+                                        </template>
+                                    </Dropdown>
+                                </div>
+                                <div
+                                    class="inline-flex items-center px-1 text-sm pl-0 font-medium leading-5 text-gray-900 focus:outline-none  transition duration-150 ease-in-out">
+                                    <Dropdown width="48">
+                                        <template #trigger>
+                                            <span class="inline-flex rounded-md bg-black">
+                                                <button type="button"
+                                                    class="inline-flex items-center py-2 border border-transparent text-sm leading-4 text-white font-medium rounded-md text-gray-500 bg-black hover:text-orange-400 focus:outline-none transition ease-in-out duration-150">
+                                                    Quotas
+
+                                                    <svg class="ms-2 -me-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 20 20" fill="currentColor">
+                                                        <path fill-rule="evenodd"
+                                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                            clip-rule="evenodd" />
+                                                    </svg>
+                                                </button>
+                                            </span>
+                                        </template>
+
+                                        <template #content>
+                                            <DropdownLink :href="route('quotas.index')"> Quotas </DropdownLink>
+                                            <DropdownLink :href="route('quotas-history.index')"> Historic de Quotes
+                                            </DropdownLink>
+                                        </template>
+                                    </Dropdown>
+                                </div>
                             </div>
                         </div>
 
@@ -47,23 +95,15 @@ const showingNavigationDropdown = ref(false);
                                 <Dropdown align="right" width="48">
                                     <template #trigger>
                                         <span class="inline-flex rounded-md bg-black">
-                                            <button
-                                                type="button"
-                                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 text-white font-medium rounded-md text-gray-500 bg-black hover:text-orange-400 focus:outline-none transition ease-in-out duration-150"
-                                            >
+                                            <button type="button"
+                                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 text-white font-medium rounded-md text-gray-500 bg-black hover:text-orange-400 focus:outline-none transition ease-in-out duration-150">
                                                 {{ $page.props.auth.user.name }}
 
-                                                <svg
-                                                    class="ms-2 -me-0.5 h-4 w-4"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 20 20"
-                                                    fill="currentColor"
-                                                >
-                                                    <path
-                                                        fill-rule="evenodd"
+                                                <svg class="ms-2 -me-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fill-rule="evenodd"
                                                         d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                        clip-rule="evenodd"
-                                                    />
+                                                        clip-rule="evenodd" />
                                                 </svg>
                                             </button>
                                         </span>
@@ -83,31 +123,19 @@ const showingNavigationDropdown = ref(false);
 
                         <!-- Hamburger -->
                         <div class="-me-2 flex items-center sm:hidden">
-                            <button
-                                @click="showingNavigationDropdown = !showingNavigationDropdown"
-                                class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
-                            >
+                            <button @click="showingNavigationDropdown = !showingNavigationDropdown"
+                                class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
                                 <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                                    <path
-                                        :class="{
-                                            hidden: showingNavigationDropdown,
-                                            'inline-flex': !showingNavigationDropdown,
-                                        }"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M4 6h16M4 12h16M4 18h16"
-                                    />
-                                    <path
-                                        :class="{
-                                            hidden: !showingNavigationDropdown,
-                                            'inline-flex': showingNavigationDropdown,
-                                        }"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
+                                    <path :class="{
+                                        hidden: showingNavigationDropdown,
+                                        'inline-flex': !showingNavigationDropdown,
+                                    }" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 6h16M4 12h16M4 18h16" />
+                                    <path :class="{
+                                        hidden: !showingNavigationDropdown,
+                                        'inline-flex': showingNavigationDropdown,
+                                    }" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12" />
                                 </svg>
                             </button>
                         </div>
@@ -115,10 +143,8 @@ const showingNavigationDropdown = ref(false);
                 </div>
 
                 <!-- Responsive Navigation Menu -->
-                <div
-                    :class="{ block: showingNavigationDropdown, hidden: !showingNavigationDropdown }"
-                    class="sm:hidden"
-                >
+                <div :class="{ block: showingNavigationDropdown, hidden: !showingNavigationDropdown }"
+                    class="sm:hidden">
                     <div class="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                             Pàgina principal
@@ -127,12 +153,14 @@ const showingNavigationDropdown = ref(false);
                             Usuaris
                         </ResponsiveNavLink>
                         <ResponsiveNavLink :href="route('profile-panel')" :active="route().current('profile-panel')">
-                            Perfils 
+                            Perfils
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('companies-panel')" :active="route().current('companies-panel')">
+                        <ResponsiveNavLink :href="route('companies-panel')"
+                            :active="route().current('companies-panel')">
                             Empreses
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('concept-type-panel')" :active="route().current('concept-type-panel')">
+                        <ResponsiveNavLink :href="route('concept-type-panel')"
+                            :active="route().current('concept-type-panel')">
                             Tipus de Conceptes
                         </ResponsiveNavLink>
                         <ResponsiveNavLink :href="route('concept-panel')" :active="route().current('concept-panel')">
@@ -141,10 +169,10 @@ const showingNavigationDropdown = ref(false);
                         <ResponsiveNavLink :href="route('register-panel')" :active="route().current('register-panel')">
                             Registres
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink >
+                        <ResponsiveNavLink>
                             Historics
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink >
+                        <ResponsiveNavLink>
                             Quotes
                         </ResponsiveNavLink>
 

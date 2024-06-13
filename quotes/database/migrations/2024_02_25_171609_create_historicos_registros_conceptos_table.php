@@ -14,15 +14,16 @@ return new class extends Migration
         Schema::create('historicos_registros_conceptos', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->unsignedBigInteger('idRegistro');
-            $table->unsignedBigInteger('idEmpresa');
-            $table->unsignedBigInteger('idConcepto');
+            $table->integer('idRegistro');
+            $table->integer('idEmpresa');
+            $table->string('nombreEmpresa');
+            $table->integer('idConcepto');
+            $table->string('nombreConceptoCorto');
+            $table->string('nombreConceptoLargo');
+            $table->float('precio');
+            $table->integer('idTipo');
+            $table->string('nombreTipo');
             $table->integer('unidades');
-
-            $table->foreign('idRegistro')->references('id')->on('registros_conceptos');
-            $table->foreign('idEmpresa')->references('id')->on('empresas');
-            $table->foreign('idConcepto')->references('id')->on('conceptos');
-
         });
     }
 

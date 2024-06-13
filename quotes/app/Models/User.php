@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\RegistroEntrada;
 
 class User extends Authenticatable
 {
@@ -53,7 +54,6 @@ class User extends Authenticatable
     // registroentrada
     public function registroentrada()
     {
-        return $this->hasMany(RegistroEntrada::class, 'idUsuario
-        ');
+        return $this->hasMany(RegistroEntrada::class, 'idUsuario');
     }
 }

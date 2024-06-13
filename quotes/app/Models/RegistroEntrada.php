@@ -17,8 +17,8 @@ class RegistroEntrada extends Model
     ];
 
     public function usuario()
-    {
-        return $this->belongsTo(User::class, 'idUsuario
-        ');
-    }
+{
+    return $this->belongsTo(User::class, 'idUsuario');
+}
+
 }

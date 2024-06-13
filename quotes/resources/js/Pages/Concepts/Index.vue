@@ -6,43 +6,75 @@ import { ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 
 const form = useForm({
-    nombreTipo: '',
+    nombreConceptoCorto: '',
+    nombreConceptoLargo: '',
+    precio: '',
+    idTipo: '',
 });
 
 const editState = ref({});
 
-const showModalConceptType = () => {
-    form.nombreTipo = '';
+const showModalConcept = () => {
+    form.nombreConceptoCorto = '';
+    form.nombreConceptoLargo = '';
+    form.precio = '';
+    form.idTipo = '';
     editState.value['new'] = true;
 };
 
-const closeModal = (conceptTypeId) => {
-    delete editState.value[conceptTypeId];
+const closeModal = (conceptId) => {
+    delete editState.value[conceptId];
 };
-
-
 </script>
 
 <template>
-   <div class="bg-gray-100">
+      <div class="bg-gray-100">
         <Header />
 
-        <button class="btn btn-outline" @click="showModalConceptType()">
-            Afegir nou tipus de concepte
+        <button class="btn btn-outline" @click="showModalConcept()">
+            Afegir concepte
         </button>
         <Modal :show="editState['new']" @close="closeModal('new')">
             <div class="p-6">
                 <h2 class="text-lg font-medium text-gray-900">
-                    Afegir un nou tipus de concepte
+                    Afegir un nou concepte
                 </h2>
 
-                <form @submit.prevent="form.post(route('concepts-types.store')); closeModal('new')" class="mt-6 space-y-6">
+                <form @submit.prevent="form.post(route('concepts.store')); closeModal('new')" class="mt-6 space-y-6">
                     <div>
-                        <label for="name" class="block text-sm font-medium text-gray-700">
-                            Nom
+                        <label for="nombreConceptoCorto" class="block text-sm font-medium text-gray-700">
+                            Nom curt
                         </label>
-                        <input id="name" type="text" v-model="form.nombreTipo" class="mt-1 block
-                            w-full" required autofocus autocomplete="name" />
+                        <input id="nombreConceptoCorto" type="text" v-model="form.nombreConceptoCorto" class="mt-1 block
+                            w-full" required autofocus autocomplete="nombreConceptoCorto" />
+                    </div>
+
+                    <div>
+                        <label for="nombreConceptoLargo" class="block text-sm font-medium text-gray-700">
+                            Nom llarg
+                        </label>
+                        <input id="nombreConceptoLargo" type="text" v-model="form.nombreConceptoLargo" class="mt-1 block
+
+                            w-full" required autocomplete="nombreConceptoLargo" />
+                    </div>
+
+                    <div>
+                        <label for="precio" class="block text-sm font-medium text-gray-700">
+                            Preu
+                        </label>
+                        <input id="precio" type="number" v-model="form.precio" class="mt-1 block w-full" required
+                            autocomplete="precio" />
+                    </div>
+
+                    <div>
+                        <label for="idTipo" class="block text-sm font-medium text-gray-700">
+                            Tipus de concepte
+                        </label>
+                        <select id="idTipo" v-model="form.idTipo" class="mt-1 block w-full">
+                            <option v-for="tipo in $page.props.conceptsTypes" :key="tipo.id" :value="tipo.id">
+                                {{ tipo.nombreTipo }}
+                            </option>
+                        </select>
                     </div>
 
                     <div class="mt-6">
@@ -54,23 +86,32 @@ const closeModal = (conceptTypeId) => {
             </div>
         </Modal>
 
-
         <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto relative mt-16">
             <table class="table">
                 <thead>
                     <tr>
                         <th></th>
-                        <th>Nom</th>
+                        <th>Nom curt</th>
+                        <th>Nom llarg</th>
+                        <th>Preu</th>
+                        <th>Tipus de concepte</th>
                         <th></th>
                         <th>Accions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="conceptType in $page.props.conceptTypes" :key="conceptType.id">
+                    <tr v-for="concept in $page.props.concepts" :key="concept.id">
                         <th></th>
-                        <td>{{ conceptType.nombreTipo }}</td>
+                        <td>{{ concept.nombreConceptoCorto }}</td>
+                        <td>{{ concept.nombreConceptoLargo }}</td>
+                        <td>{{ concept.precio }}€</td>
+                        <td>
+                            <!-- {{ concept.tipo_concepto.nombreTipo  }} -->
+                            <!-- if idTipo is null, "Sense tipus" -->
+                            {{ concept.tipo_concepto ? concept.tipo_concepto.nombreTipo : 'Sense tipus' }}
+                        </td>
                         <td class="text-right">
-                            <!-- <button class="btn" :value="user.id" @click="showModal(user)">
+                            <!-- <button class="btn btn-outline" :value="user.id" @click="showModal(user)">
                                 Editar
                             </button>
                             <Modal :show="editState[user.id]" @close="closeModal(user.id)">
@@ -120,12 +161,9 @@ const closeModal = (conceptTypeId) => {
                             </Modal> -->
                         </td>
                         <td>
-                             <!-- destroy -->
-                             <Link :href="route('concepts-types.destroy', conceptType.id)" method="delete" >
-                                <button class="btn">
-                                    Eliminar
-                                </button>
-                            </Link>
+                            <Link :href="route('concepts.destroy', concept.id)" method="delete">
+                            <button class="btn btn-outline">Eliminar</button>
+                            </Link> 
                         </td>
                     </tr>
                 </tbody>
@@ -134,4 +172,4 @@ const closeModal = (conceptTypeId) => {
         </div>
 </template>
 
-<style scoped></style>
+<script setup></script>

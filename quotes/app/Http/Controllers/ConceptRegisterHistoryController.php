@@ -4,19 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use App\Models\TipoConcepto;
-use App\Models\Concepto;
+use App\Models\HistoricoRegistroConcepto;
 
-class ConceptsTypesController extends Controller
+class ConceptRegisterHistoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $conceptTypes = TipoConcepto::all();
-        return Inertia::render('ConceptsTypes/Index', [
-            'conceptTypes' => $conceptTypes
+        // Get all the concepts registers history with the company and concept data
+        $registers = HistoricoRegistroConcepto::with('empresa.perfil', 'concepto.tipoConcepto', 'registro_concepto')->get();
+       return Inertia::render('ConceptsRegistersHistory/Index', [
+            'registers' => $registers
         ]);
     }
 
@@ -33,13 +33,7 @@ class ConceptsTypesController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'nombreTipo' => 'required',
-        ]);
-
-        TipoConcepto::create($request->all());
-
-        return redirect()->route('concepts-types.index');
+        //
     }
 
     /**
@@ -71,16 +65,6 @@ class ConceptsTypesController extends Controller
      */
     public function destroy(string $id)
     {
-        $conceptType = TipoConcepto::find($id);
-        $concepts = Concepto::where('idTipo', $id)->get();
-        foreach ($concepts as $concept) {
-            $concept->idTipo = null;
-            $concept->save();
-        }
-
-
-        $conceptType->delete();
-
-        return redirect()->route('concepts-types.index');
+        //
     }
 }

@@ -14,8 +14,10 @@ class HistoricoQuota extends Model
     protected $fillable = [
         'idQuota',
         'idEmpresa',
+        'nombreEmpresa',
         'nif',
         'idTipoQuota',
+        'nombreTipoQuota',
         'importePropuesta',
         'fechaPropuesta',
         'fechaAceptacion',

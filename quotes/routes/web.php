@@ -16,6 +16,11 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ProfilesController;
 use App\Http\Controllers\CompaniesController;
 use App\Http\Controllers\ConceptsTypesController;
+use App\Http\Controllers\ConceptsController;
+use App\Http\Controllers\ConceptsRegistersController;
+use App\Http\Controllers\QuotasController;
+use App\Http\Controllers\QuotasHistoryController;
+use App\Http\Controllers\ConceptRegisterHistoryController;
 
 
 /*
@@ -73,6 +78,13 @@ Route::middleware('auth')->group(function () {
 Route::resource('users', UsersController::class);
 Route::resource('profiles', ProfilesController::class);
 Route::resource('companies', CompaniesController::class);
+Route::delete('/companies/{id}/delete-concept-register/{idConceptRegister}', [CompaniesController::class, 'destroyConceptRegister'])->name('companies.delete-concept-register');
+Route::post('/companies/{id}/add-concept-register', [CompaniesController::class, 'addConceptRegister'])->name('companies.add-concept-register');
 Route::resource('concepts-types', ConceptsTypesController::class);
+Route::resource('concepts', ConceptsController::class);
+Route::resource('concepts-registers', ConceptsRegistersController::class);
+Route::resource('quotas', QuotasController::class);
+Route::resource('quotas-history', QuotasHistoryController::class);
+Route::resource('concepts-registers-history', ConceptRegisterHistoryController::class);
 
 require __DIR__.'/auth.php';

@@ -14,7 +14,13 @@ class HistoricoRegistroConcepto extends Model
     protected $fillable = [
         'idRegistro',
         'idEmpresa',
+        'nombreEmpresa',
         'idConcepto',
+        'nombreConceptoCorto',
+        'nombreConceptoLargo',
+        'precio',
+        'idTipo',
+        'nombreTipo',
         'unidades',
     ];
 
