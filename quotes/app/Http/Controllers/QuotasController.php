@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Barryvdh\Snappy\Facades\SnappyPdf as PDF;
 
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -114,5 +115,17 @@ class QuotasController extends Controller
     }
 
     return redirect()->route('companies.show', ['company' => $empresa->id]);
+}
+
+public function pdf(string $id)
+{
+    // Genera el PDF (ejemplo simplificado)
+    $pdfContent = generatePDFContent(); // Debes reemplazar esto con tu lógica real para generar PDF
+    
+    // Devuelve el PDF con los headers adecuados
+    return Response::make($pdfContent, 200, [
+        'Content-Type' => 'application/pdf',
+        'Content-Disposition' => 'inline; filename="archivo.pdf"'
+    ]);
 }
 }

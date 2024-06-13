@@ -84,6 +84,8 @@ Route::resource('concepts-types', ConceptsTypesController::class);
 Route::resource('concepts', ConceptsController::class);
 Route::resource('concepts-registers', ConceptsRegistersController::class);
 Route::resource('quotas', QuotasController::class);
+// pdf
+Route::get('/quotas/{id}/pdf', 'QuotaController@pdf')->name('quotas.pdf');
 Route::resource('quotas-history', QuotasHistoryController::class);
 Route::resource('concepts-registers-history', ConceptRegisterHistoryController::class);
 
