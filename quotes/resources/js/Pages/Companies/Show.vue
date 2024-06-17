@@ -128,6 +128,27 @@ const destroyQuota = () => {
     }
 };
 
+const pdf = () => {
+    fetch(route('quotas.pdf', company.value.quota.id)) // Asegúrate de que esta ruta sea correcta
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.blob();
+        })
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `${company.value.nomEmpresa}_${company.value.quota.id}.pdf`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link); 
+        })
+        .catch(error => {
+            console.error('Error al descargar el archivo PDF:', error);
+        });
+};
 </script>
 
 <template>
@@ -275,7 +296,7 @@ const destroyQuota = () => {
                         </div>
                     </div>
                     <div class="acciones flex space-x-4 justify-end mt-4">
-                        <button
+                        <button @click="pdf"
                             class="hover:bg-gray-400 rounded-xl p-2 flex items-center space-x-2 border border-gray-400">
                             <img src="/assets/img/archivo-pdf.svg" alt="PDF" class="w-5 h-5">
                             <span class="text-sm font-bold">Resum</span>

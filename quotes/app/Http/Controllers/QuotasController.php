@@ -9,6 +9,11 @@ use App\Models\TipoConcepto;
 use App\Models\Empresa;
 use App\Models\RegistroConcepto;
 use App\Models\HistoricoQuota;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App;
+
+// pdf
+
 
 class QuotasController extends Controller
 {
@@ -114,5 +119,31 @@ class QuotasController extends Controller
     }
 
     return redirect()->route('companies.show', ['company' => $empresa->id]);
+}
+
+public function pdf (string $id)
+{   
+    $quota = Quota::with('empresa.registro_concepto.concepto.tipoConcepto', 'empresa.perfil', 'tipoQuota')->find($id);
+    $company = 'Empresa';
+    $date = now();
+    $user = auth()->user();
+    // path of the logo img in public, assets, img
+    $logo = public_path('assets/img/logo.png');
+
+    $data = [
+        'quota' => $quota,
+        'company' => $company,
+         'date' => $date,
+         'user' => $user,
+         'logo' => $logo,
+       
+    ];
+        // return PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('reports.invoiceSell')->stream();
+
+    // $pdf = Pdf::loadView('tst', $data);
+
+    $pdf = Pdf::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('tst', $data);
+
+    return $pdf->download("{$company}_{$quota}.pdf");
 }
 }

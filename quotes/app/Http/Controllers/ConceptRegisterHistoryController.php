@@ -14,7 +14,9 @@ class ConceptRegisterHistoryController extends Controller
     public function index()
     {
         // Get all the concepts registers history with the company and concept data
-        $registers = HistoricoRegistroConcepto::with('empresa.perfil', 'concepto.tipoConcepto', 'registro_concepto')->get();
+        $registers = HistoricoRegistroConcepto::with('empresa.perfil', 'concepto.tipoConcepto', 'registro_concepto')
+        ->orderBy('created_at', 'desc')
+        ->get();
        return Inertia::render('ConceptsRegistersHistory/Index', [
             'registers' => $registers
         ]);

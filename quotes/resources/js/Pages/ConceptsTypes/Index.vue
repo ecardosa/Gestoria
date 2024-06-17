@@ -26,10 +26,17 @@ const closeModal = (conceptTypeId) => {
 <template>
    <div class="bg-gray-100">
         <Header />
-
-        <button class="btn btn-outline" @click="showModalConceptType()">
-            Afegir nou tipus de concepte
+        <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-2 ml-10">
+            <img src="/assets/img/triangulos.png" class="w-6">
+       <h1 class="text-2xl font-semibold text-gray-900 mt-6 mb-4">
+       Tipus de conceptes</h1>
+    </div>
+    <button class="btn btn-outline mr-10" @click="showModalConceptType()">
+            + Afegir tipus
         </button>
+    </div>
+       
         <Modal :show="editState['new']" @close="closeModal('new')">
             <div class="p-6">
                 <h2 class="text-lg font-medium text-gray-900">
@@ -55,7 +62,7 @@ const closeModal = (conceptTypeId) => {
         </Modal>
 
 
-        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto relative mt-16">
+        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto relative" v-if="$page.props.conceptTypes.length > 0">
             <table class="table">
                 <thead>
                     <tr>
@@ -131,6 +138,13 @@ const closeModal = (conceptTypeId) => {
                 </tbody>
             </table>
         </div>
+
+        <div class="h-screen" v-else>
+            <div class="p-6 flex items-center justify-center flex-col space-y-4">
+                <p class="text-gray-700">Encara no hi ha tipus de conceptes, afegeix un al botó!</p>
+                <img src="/assets/img/none.png" class="w-1/4">
+            </div>
+            </div>
         </div>
 </template>
 

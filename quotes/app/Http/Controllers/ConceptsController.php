@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;   
 use App\Models\Concepto; 
 use App\Models\TipoConcepto;
+use App\Models\RegistroConcepto;
 
 
 class ConceptsController extends Controller
@@ -76,6 +77,10 @@ class ConceptsController extends Controller
      */
     public function destroy(string $id)
     {
+        $registroConcepto = RegistroConcepto::where('idConcepto', $id)->get();
+        foreach ($registroConcepto as $registro) {
+            $registro->delete();
+        }
         $concept = Concepto::find($id);
         $concept->delete();
         return redirect()->route('concepts.index');

@@ -87,4 +87,6 @@ Route::resource('quotas', QuotasController::class);
 Route::resource('quotas-history', QuotasHistoryController::class);
 Route::resource('concepts-registers-history', ConceptRegisterHistoryController::class);
 
+// pdf, paso el id de la quota a la ruta para obtener el pdf de esa quota
+Route::get('/quotas/{id}/pdf', [QuotasController::class, 'pdf'])->name('quotas.pdf');
 require __DIR__.'/auth.php';

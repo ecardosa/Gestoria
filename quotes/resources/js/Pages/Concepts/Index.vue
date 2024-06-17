@@ -30,14 +30,20 @@ const closeModal = (conceptId) => {
 <template>
       <div class="bg-gray-100">
         <Header />
-
-        <button class="btn btn-outline" @click="showModalConcept()">
+        <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-2 ml-10">
+            <img src="/assets/img/triangulos.png" class="w-6">
+       <h1 class="text-2xl font-semibold text-gray-900 mt-6 mb-4">
+        Conceptes</h1>
+    </div>
+        <button class="btn btn-outline mr-10" @click="showModalConcept()">
             Afegir concepte
         </button>
+    </div>
         <Modal :show="editState['new']" @close="closeModal('new')">
             <div class="p-6">
                 <h2 class="text-lg font-medium text-gray-900">
-                    Afegir un nou concepte
+                    + Afegir un nou concepte
                 </h2>
 
                 <form @submit.prevent="form.post(route('concepts.store')); closeModal('new')" class="mt-6 space-y-6">
@@ -86,7 +92,7 @@ const closeModal = (conceptId) => {
             </div>
         </Modal>
 
-        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto relative mt-16">
+        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto relative">
             <table class="table">
                 <thead>
                     <tr>

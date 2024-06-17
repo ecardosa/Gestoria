@@ -58,6 +58,7 @@ class ComposerStaticInitb3e4a427f5c94e0f9a18aba5efe988a4
         'P' => 
         array (
             'Psr\\SimpleCache\\' => 16,
+            'Psr\\Log\\' => 8,
             'Psr\\Container\\' => 14,
             'Psr\\Clock\\' => 10,
         ),
@@ -65,6 +66,10 @@ class ComposerStaticInitb3e4a427f5c94e0f9a18aba5efe988a4
         array (
             'Laravel\\Prompts\\' => 16,
             'Laravel\\Breeze\\' => 15,
+        ),
+        'K' => 
+        array (
+            'Knp\\Snappy\\' => 11,
         ),
         'I' => 
         array (
@@ -97,6 +102,7 @@ class ComposerStaticInitb3e4a427f5c94e0f9a18aba5efe988a4
         'B' => 
         array (
             'Brick\\Math\\' => 11,
+            'Barryvdh\\Snappy\\' => 16,
         ),
     );
 
@@ -181,6 +187,10 @@ class ComposerStaticInitb3e4a427f5c94e0f9a18aba5efe988a4
         array (
             0 => __DIR__ . '/..' . '/psr/simple-cache/src',
         ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/src',
+        ),
         'Psr\\Container\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
@@ -196,6 +206,10 @@ class ComposerStaticInitb3e4a427f5c94e0f9a18aba5efe988a4
         'Laravel\\Breeze\\' => 
         array (
             0 => __DIR__ . '/..' . '/laravel/breeze/src',
+        ),
+        'Knp\\Snappy\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/knplabs/knp-snappy/src/Knp/Snappy',
         ),
         'Illuminate\\View\\' => 
         array (
@@ -267,6 +281,10 @@ class ComposerStaticInitb3e4a427f5c94e0f9a18aba5efe988a4
         'Brick\\Math\\' => 
         array (
             0 => __DIR__ . '/..' . '/brick/math/src',
+        ),
+        'Barryvdh\\Snappy\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/barryvdh/laravel-snappy/src',
         ),
     );
 

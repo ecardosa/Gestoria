@@ -9,13 +9,18 @@ import { useForm } from '@inertiajs/vue3';
 <template>
     <div class="bg-gray-100">
         <Header />
-
-        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto relative mt-16">
+        <div class="flex items-center space-x-2 ml-10">
+            <img src="/assets/img/triangulos.png" class="w-6">
+            <h1 class="text-2xl font-semibold text-gray-900 mt-6 mb-4">
+                Històric de quotes
+            </h1>
+        </div>
+        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto relative">
             <table class="table">
                 <thead>
                     <tr>
                         <th></th>
-                        <th>Quota</th> 
+                        <th>Quota</th>
                         <th>Empresa</th>
                         <th>NIF</th>
                         <th>Tipus</th>
@@ -26,17 +31,16 @@ import { useForm } from '@inertiajs/vue3';
                         <th>Data final</th>
                         <th>Acceptada</th>
                         <th>Comentaris</th>
-                        <th></th>
-                        <th>Accions</th>
+
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="history in $page.props.quotasHistory" :key="history.id">
                         <td></td>
-                        <td>{{ history.quota.id }}</td>
-                        <td>{{ history.empresa.nomEmpresa }}</td>
+                        <td>{{ history.idQuota }}</td>
+                        <td>{{ history.nombreEmpresa }}</td>
                         <td>{{ history.nif }}</td>
-                        <td>{{ history.tipo_quota.nombreTipo }}</td>
+                        <td>{{ history.nombreTipoQuota }}</td>
                         <td>{{ history.importePropuesta }}</td>
                         <td>{{ history.fechaPropuesta }}</td>
                         <td>{{ history.fechaAceptacion }}</td>
@@ -44,13 +48,7 @@ import { useForm } from '@inertiajs/vue3';
                         <td>{{ history.fechaFinal }}</td>
                         <td>{{ history.aceptada == 1 ? 'Sí' : 'No' }}</td>
                         <td>{{ history.comentarios }}</td>
-                        <td>
-                        </td>
-                        <td class="text-right">
-                            <button class="btn btn-outline">
-                                Editar
-                            </button>
-                        </td>
+
                     </tr>
                 </tbody>
             </table>
