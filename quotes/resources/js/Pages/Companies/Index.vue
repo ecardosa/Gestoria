@@ -27,18 +27,20 @@ const form = useForm({
 <template>
     <div class="bg-gray-100 h-screen overflow-y-auto">
         <Header />
-        <div class="sm:p-10 px-4 py-6 flex justify-between items-center space-x-4">
-            <Search />
-            <div class="w-[40px] h-[40px]">
-            <button class="btn btn-square btn-outline w-[40px] min-h-[40px] h-[40px]" @click="showModal">
+        <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center space-x-2 ml-10">
+                <img src="/assets/img/triangulos.png" class="w-6">
+                <h1 class="text-2xl font-semibold text-gray-900 mt-6 mb-4">
+                    Empreses</h1>
+            </div>
+            <div class="w-[40px] h-[40px] mr-10">
+            <button class="btn btn-square btn-outline w-[40px] min-h-[40px] h-[40px] mr-10" @click="showModal">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 rotate-45"
                 fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
-
-
         <Modal :show="editState" @close="closeModal">
             <div class="p-6">
                 <h2 class="text-lg font-medium text-gray-900">
@@ -74,9 +76,11 @@ const form = useForm({
         </Modal> 
         </div>
         </div>
+           
+        
         <div class="grid grid-cols-1 gap-4 xl:grid-cols-4 
             lg:grid-cols-3 md:grid-cols-2 mb-10 
-            sm:grid-cols-1 sm:px-20 px-2 px-4 flex justify-center items-center w-full">
+            sm:grid-cols-1 sm:px-10 px-2 px-4 flex justify-center items-center w-full gap-6">
             <Link class="card w-auto bg-base-100 hover:shadow-md rounded-lg transition duration-300 ease-in-out"
                 v-for="company in $page.props.companies" :key="company.id" :href="route('companies.show', company.id)">
             <div class="card-body p-4">

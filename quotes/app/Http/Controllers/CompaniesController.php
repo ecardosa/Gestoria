@@ -65,9 +65,6 @@ class CompaniesController extends Controller
      */
     public function show(string $id)
     {
-
-
-
         $company = Empresa::with('perfil', 'registro_concepto.concepto', 'quota')
         ->find($id);
 

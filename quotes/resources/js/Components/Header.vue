@@ -18,9 +18,9 @@ const showingNavigationDropdown = ref(false);
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
                     <div class="flex justify-between h-16">
                         <div class="flex">
-                            <div class="shrink-0 flex items-center">
-                                <img src="/assets/img/logo.png" alt="Logo" class="h-16 w-auto" />
-                            </div>
+                            <Link href="/" class="shrink-0 flex items-center">
+                            <img src="/assets/img/logo.png" alt="Logo" class="h-16 w-auto" />
+                            </Link>
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex text-white">
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')"
                                     class="text-white hover:text-orange-400">
@@ -53,10 +53,6 @@ const showingNavigationDropdown = ref(false);
                                             <DropdownLink :href="route('concepts.index')"> Conceptes </DropdownLink>
                                             <DropdownLink :href="route('concepts-types.index')"> Tipus de conceptes
                                             </DropdownLink>
-                                            <DropdownLink :href="route('concepts-registers.index')"> Registre de
-                                                conceptes </DropdownLink>
-                                            <DropdownLink :href="route('concepts-registers-history.index')"> Historic de
-                                                registre de conceptes </DropdownLink>
                                         </template>
                                     </Dropdown>
                                 </div>
@@ -67,8 +63,7 @@ const showingNavigationDropdown = ref(false);
                                             <span class="inline-flex rounded-md bg-black">
                                                 <button type="button"
                                                     class="inline-flex items-center py-2 border border-transparent text-sm leading-4 text-white font-medium rounded-md text-gray-500 bg-black hover:text-orange-400 focus:outline-none transition ease-in-out duration-150">
-                                                    Quotas
-
+                                                    Històrics
                                                     <svg class="ms-2 -me-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg"
                                                         viewBox="0 0 20 20" fill="currentColor">
                                                         <path fill-rule="evenodd"
@@ -80,8 +75,10 @@ const showingNavigationDropdown = ref(false);
                                         </template>
 
                                         <template #content>
-                                            <DropdownLink :href="route('quotas.index')"> Quotas </DropdownLink>
-                                            <DropdownLink :href="route('quotas-history.index')"> Historic de Quotes
+                                            <DropdownLink :href="route('concepts-registers-history.index')">
+                                                Històric de conceptes
+                                            </DropdownLink>
+                                            <DropdownLink :href="route('quotas-history.index')"> Històric de quotes
                                             </DropdownLink>
                                         </template>
                                     </Dropdown>
@@ -149,39 +146,31 @@ const showingNavigationDropdown = ref(false);
                         <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                             Pàgina principal
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('admin-panel')" :active="route().current('admin-panel')">
-                            Usuaris
-                        </ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('profile-panel')" :active="route().current('profile-panel')">
-                            Perfils
-                        </ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('companies-panel')"
-                            :active="route().current('companies-panel')">
+                        <ResponsiveNavLink :href="route('companies.index')"
+                            :active="route().current('companies.index')">
                             Empreses
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('concept-type-panel')"
-                            :active="route().current('concept-type-panel')">
-                            Tipus de Conceptes
-                        </ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('concept-panel')" :active="route().current('concept-panel')">
+                        <ResponsiveNavLink :href="route('concepts.index')" :active="route().current('concepts.index')">
                             Conceptes
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('register-panel')" :active="route().current('register-panel')">
-                            Registres
+                        <ResponsiveNavLink :href="route('concepts-types.index')"
+                            :active="route().current('concepts-types.index')">
+                            Tipus de conceptes
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink>
-                            Historics
+                        <ResponsiveNavLink :href="route('concepts-registers-history.index')"
+                            :active="route().current('concepts-registers-history.index')">
+                            Històric de conceptes
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink>
-                            Quotes
+                        <ResponsiveNavLink :href="route('quotas-history.index')"
+                            :active="route().current('quotas-history.index')">
+                            Històric de quotes
                         </ResponsiveNavLink>
-
                     </div>
 
                     <!-- Responsive Settings Options -->
                     <div class="pt-4 pb-1 border-t border-gray-200">
                         <div class="px-4">
-                            <div class="font-medium text-base text-gray-800">
+                            <div class="font-medium text-white text-gray-800">
                                 {{ $page.props.auth.user.name }}
                             </div>
                             <div class="font-medium text-sm text-gray-500">{{ $page.props.auth.user.email }}</div>

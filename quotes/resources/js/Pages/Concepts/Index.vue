@@ -28,18 +28,18 @@ const closeModal = (conceptId) => {
 </script>
 
 <template>
-      <div class="bg-gray-100">
+    <div class="bg-gray-100">
         <Header />
         <div class="flex items-center justify-between">
-        <div class="flex items-center space-x-2 ml-10">
-            <img src="/assets/img/triangulos.png" class="w-6">
-       <h1 class="text-2xl font-semibold text-gray-900 mt-6 mb-4">
-        Conceptes</h1>
-    </div>
-        <button class="btn btn-outline mr-10" @click="showModalConcept()">
-            Afegir concepte
-        </button>
-    </div>
+            <div class="flex items-center space-x-2 ml-10">
+                <img src="/assets/img/triangulos.png" class="w-6">
+                <h1 class="text-2xl font-semibold text-gray-900 mt-6 mb-4">
+                    Conceptes</h1>
+            </div>
+            <button class="btn btn-outline mr-10" @click="showModalConcept()">
+                Afegir concepte
+            </button>
+        </div>
         <Modal :show="editState['new']" @close="closeModal('new')">
             <div class="p-6">
                 <h2 class="text-lg font-medium text-gray-900">
@@ -169,13 +169,13 @@ const closeModal = (conceptId) => {
                         <td>
                             <Link :href="route('concepts.destroy', concept.id)" method="delete">
                             <button class="btn btn-outline">Eliminar</button>
-                            </Link> 
+                            </Link>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-        </div>
+    </div>
 </template>
 
 <script setup></script>
