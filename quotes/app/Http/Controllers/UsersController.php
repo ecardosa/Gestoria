@@ -18,11 +18,15 @@ class UsersController extends Controller
     {
        
         $users = User::with('perfil')->with('registroentrada')->get();
+        $admins = User::where('is_admin', 1)->get();
+        $notActive = User::where('is_active', 0)->get();
         $profiles = Perfil::all();
      
         return Inertia::render('Users/Index', [
             'users' => $users,
             'profiles' => $profiles,
+            'admins' => $admins,
+            'notActive' => $notActive,
         ]);
     }
 
@@ -44,12 +48,16 @@ class UsersController extends Controller
             'email' => 'required',
             'idperfil' => 'required',
             'password' => 'required',
+            'is_admin' => 'required',
+            'is_active' => 'required',
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'idperfil' => $request->idperfil,
+            'is_admin' => $request->is_admin,
+            'is_active' => $request->is_active,
             'password' => bcrypt($request->password),
         ]);
 
@@ -81,12 +89,16 @@ class UsersController extends Controller
             'name' => 'required',
             'email' => 'required',
             'idperfil' => 'required',
+            'is_admin' => 'required',
+            'is_active' => 'required',
         ]);
 
         $user = User::find($id);
         $user->name = $request->name;
         $user->email = $request->email;
         $user->idperfil = $request->idperfil;
+        $user->is_admin = $request->is_admin;
+        $user->is_active = $request->is_active;
         $user->save();
 
         return redirect()->route('users.index');

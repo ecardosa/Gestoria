@@ -14,6 +14,8 @@ use App\Http\Controllers\ConceptsRegistersController;
 use App\Http\Controllers\QuotasController;
 use App\Http\Controllers\QuotasHistoryController;
 use App\Http\Controllers\ConceptRegisterHistoryController;
+use App\Http\Controllers\EmailController;
+
 
 
 /*
@@ -53,5 +55,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('concepts-registers-history', ConceptRegisterHistoryController::class);
     Route::get('/quotas/{id}/pdf', [QuotasController::class, 'pdf'])->name('quotas.pdf');
 });
+
+Route::get('/send-welcome-email', [EmailController::class, 'sendWelcomeEmail']);
 
 require __DIR__.'/auth.php';

@@ -30,7 +30,7 @@ const closeModal = () => {
     editState.value = false;
 };
 
-const form = useForm({
+const formConcept = useForm({
     companyId: companyId.value,
     name: '',
     namelong: '',
@@ -85,19 +85,19 @@ const submitExistentConcept = (concept, unidades) => {
                             <label for="name" class="block text-sm font-medium text-gray-700">
                                 Nom Curt
                             </label>
-                            <input v-model="form.name" id="name" type="text" class="mt-1 block w-full" required
+                            <input v-model="formConcept.name" id="name" type="text" class="mt-1 block w-full" required
                                 autofocus autocomplete="name" />
 
                             <label for="namelong" class="block text-sm font-medium text-gray-700">
                                 Nom Llarg
                             </label>
-                            <input v-model="form.namelong" id="namelong" type="text" class="mt-1 block w-full" required
+                            <input v-model="formConcept.namelong" id="namelong" type="text" class="mt-1 block w-full" required
                                 autofocus autocomplete="name" />
 
                             <label for="type_id" class="block text-sm font-medium text-gray-700">
                                 Tipus de concepte
                             </label>
-                            <select v-model="form.type_id" id="type_id" name="type_id" class="mt-1 block w-full">
+                            <select v-model="formConcept.type_id" id="type_id" name="type_id" class="mt-1 block w-full">
                                 <option value="">Selecciona un tipus</option>
                                 <option v-for="type in $page.props.conceptType" :key="type.id" :value="type.id">
                                     {{ type.nombreTipo }}
@@ -107,13 +107,13 @@ const submitExistentConcept = (concept, unidades) => {
                             <label for="price" class="block text-sm font-medium text-gray-700">
                                 Preu en €
                             </label>
-                            <input v-model="form.price" id="price" type="number" class="mt-1 block w-full" required
+                            <input v-model="formConcept.price" id="price" type="number" class="mt-1 block w-full" required
                                 autofocus autocomplete="price" />
 
                             <label for="unity" class="block text-sm font-medium text-gray-700">
                                 Unitats
                             </label>
-                            <input v-model="form.unity" id="unity" type="number" class="mt-1 block w-full" required
+                            <input v-model="formConcept.unity" id="unity" type="number" class="mt-1 block w-full" required
                                 autofocus autocomplete="unity" />
                         </div>
 
@@ -127,7 +127,7 @@ const submitExistentConcept = (concept, unidades) => {
                 </div>
                 <div v-if="showExistent" class="existent overflow-y-auto h-[300px]">
                     <div v-for="concept in concepts" :key="concept.id" class="p-2 mb-2 hover:bg-gray-100">
-                        <form class="flex justify-between items-center" @submit.prevent="submitExistentConcept(concept, form.unity)">
+                        <form class="flex justify-between items-center" @submit.prevent="submitExistentConcept(concept, formConcept.unity)">
                             <p class="w-36">
                                 {{ concept.nombreConceptoCorto }}</p>
                             <p class="w-36">
