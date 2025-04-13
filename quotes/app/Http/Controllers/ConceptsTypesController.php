@@ -15,8 +15,10 @@ class ConceptsTypesController extends Controller
     public function index()
     {
         $conceptTypes = TipoConcepto::all();
+        $user = auth()->user();
         return Inertia::render('ConceptsTypes/Index', [
-            'conceptTypes' => $conceptTypes
+            'conceptTypes' => $conceptTypes,
+            'user' => $user,
         ]);
     }
 

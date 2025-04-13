@@ -32,7 +32,7 @@ const closeModal = (conceptTypeId) => {
        <h1 class="text-2xl font-semibold text-gray-900 mt-6 mb-4">
        Tipus de conceptes</h1>
     </div>
-    <button class="btn btn-outline mr-10" @click="showModalConceptType()">
+    <button class="btn btn-outline mr-10" @click="showModalConceptType()" v-if="$page.props.user.is_admin">
             + Afegir tipus
         </button>
     </div>
@@ -68,7 +68,7 @@ const closeModal = (conceptTypeId) => {
                     <tr>
                         <th></th>
                         <th>Nom</th>
-                        <th class="text-right">
+                        <th class="text-right" style="width: 150px;" v-if="$page.props.user.is_admin">
                             Accions</th>
                     </tr>
                 </thead>
@@ -77,7 +77,7 @@ const closeModal = (conceptTypeId) => {
                         <th>{{ conceptType.id }}</th>
                         <td>{{ conceptType.nombreTipo }}</td>
                         
-                        <td class="text-right">
+                        <td class="text-right" v-if="$page.props.user.is_admin">
                              <Link :href="route('concepts-types.destroy', conceptType.id)" method="delete" >
                                 <button class="btn">
                                     Eliminar

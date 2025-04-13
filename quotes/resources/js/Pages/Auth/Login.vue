@@ -34,6 +34,10 @@ const submit = () => {
     <GuestLayout>
         <Head title="Log in" />
 
+        <div class="logo mb-4">
+            <img src="/assets/img/logoblack.png" alt="Logo" class="mx-auto" width="110px">
+        </div>
+
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
             {{ status }}
         </div>
@@ -78,7 +82,7 @@ const submit = () => {
                 </div>
                     <Link
                     :href="route('register')"
-                    class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    class="underline text-sm text-gray-600  hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     Encara no tens compte? Registra't
                 </Link>
                 </label>

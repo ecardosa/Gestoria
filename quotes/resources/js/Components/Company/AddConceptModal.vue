@@ -39,6 +39,23 @@ const formConcept = useForm({
     unity: '',
 });
 
+
+const updateConcepts = (newConcept) => {
+    concepts.value.push(newConcept);
+};
+
+const submitNewConcept = () => {
+    formConcept.post(route('concepts-registers.store'), {
+        onSuccess: (response) => {
+            updateConcepts(response.data);
+            closeModal();
+        },
+        onError: (errors) => {
+            console.error(errors);
+        }
+    });
+};
+
 const formExistent = useForm({
     companyId: companyId.value,
     concept_id: '',
@@ -80,7 +97,7 @@ const submitExistentConcept = (concept, unidades) => {
                 </h2>
 
                 <div v-if="showNou" class="nou">
-                    <form class="mt-6 space-y-6" @submit.prevent="form.post(route('concepts-registers.store')), closeModal()">
+                    <form class="mt-6 space-y-6" @submit.prevent="submitNewConcept">
                         <div>
                             <label for="name" class="block text-sm font-medium text-gray-700">
                                 Nom Curt

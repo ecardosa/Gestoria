@@ -24,6 +24,9 @@ const submit = () => {
 <template>
     <GuestLayout>
         <Head title="Register" />
+        <div class="logo mb-4">
+            <img src="/assets/img/logoblack.png" alt="Logo" class="mx-auto" width="110px">
+        </div>
 
         <form @submit.prevent="submit">
             <div>
