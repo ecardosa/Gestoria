@@ -23,8 +23,6 @@ class CompaniesController extends Controller
        
         $profiles = Perfil::all();
         $user = auth()->user();
-        // get only the companies who have the same profile as the user, or all companies if the user is admin (company with profiles)
-        // $companies = Empresa::with('perfil')->get();
         $companies = $user->is_admin ? Empresa::with('perfil')->get() : Empresa::with('perfil')->where('idperfil', $user->idperfil)->get();
         return Inertia::render('Companies/Index', [
             'companies' => $companies,

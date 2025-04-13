@@ -33,7 +33,7 @@ const form = useForm({
                 <h1 class="text-2xl font-semibold text-gray-900 mt-6 mb-4">
                     Empreses</h1>
             </div>
-            <div class="w-[40px] h-[40px] mr-10">
+            <div class="w-[40px] h-[40px] mr-10" v-if="$page.props.user.is_admin">
             <button class="btn btn-square btn-outline w-[40px] min-h-[40px] h-[40px] mr-10" @click="showModal">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 rotate-45"
                 fill="none" viewBox="0 0 24 24"
@@ -78,7 +78,8 @@ const form = useForm({
         </div>
            
         
-        <div class="grid grid-cols-1 gap-4 xl:grid-cols-4 
+        <div v-if="$page.props.companies.length > 0"
+        class="grid grid-cols-1 gap-4 xl:grid-cols-4 
             lg:grid-cols-3 md:grid-cols-2 mb-10 
             sm:grid-cols-1 sm:px-10 px-2 px-4 flex justify-center items-center w-full gap-6">
             <Link class="card w-auto bg-base-100 hover:shadow-md rounded-lg transition duration-300 ease-in-out"
@@ -104,6 +105,10 @@ const form = useForm({
                 </p>
             </div>
             </Link>
+        </div>
+
+        <div v-else class="flex justify-center items-center h-96">
+            <p class="text-gray-500 text-2xl">Encara no hi ha empreses o no tens un perfil assignat, contacta amb l'administrador per a més informació.</p>
         </div>
     </div>
 </template>

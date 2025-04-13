@@ -108,8 +108,11 @@ const showingNavigationDropdown = ref(false);
 
                                     <template #content>
                                         <DropdownLink :href="route('profile.edit')"> Perfil </DropdownLink>
-                                        <DropdownLink :href="route('users.index')"> Panell d'usuaris </DropdownLink>
-                                        <DropdownLink :href="route('profiles.index')"> Panell de perfils </DropdownLink>
+
+                                        <DropdownLink :href="route('users.index')" v-if="$page.props.auth.user.is_admin">
+                                            Panell d'usuaris 
+                                        </DropdownLink>
+                                        <DropdownLink :href="route('profiles.index')" v-if="$page.props.auth.user.is_admin"> Panell de perfils </DropdownLink>
                                         <DropdownLink :href="route('logout')" method="post" as="button">
                                             Tancar sessió
                                         </DropdownLink>

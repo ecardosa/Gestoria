@@ -15,6 +15,7 @@ use App\Http\Controllers\QuotasController;
 use App\Http\Controllers\QuotasHistoryController;
 use App\Http\Controllers\ConceptRegisterHistoryController;
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\NotActiveController;
 
 
 
@@ -36,14 +37,18 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'notActive', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::middleware('admin')->group(function () {
+    Route::resource('users', UsersController::class);
+    Route::resource('profiles', ProfilesController::class);
+});
+
+
+Route::middleware(['auth', 'notActive'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::resource('users', UsersController::class);
-    Route::resource('profiles', ProfilesController::class);
     Route::resource('companies', CompaniesController::class);
     Route::delete('/companies/{id}/delete-concept-register/{idConceptRegister}', [CompaniesController::class, 'destroyConceptRegister'])->name('companies.delete-concept-register');
     Route::post('/companies/{id}/add-concept-register', [CompaniesController::class, 'addConceptRegister'])->name('companies.add-concept-register');
@@ -54,7 +59,12 @@ Route::middleware('auth')->group(function () {
     Route::resource('quotas-history', QuotasHistoryController::class);
     Route::resource('concepts-registers-history', ConceptRegisterHistoryController::class);
     Route::get('/quotas/{id}/pdf', [QuotasController::class, 'pdf'])->name('quotas.pdf');
+    Route::post('/concepts-registers/add-existent', [ConceptRegisterController::class, 'addExistent'])->name('concepts-registers.add-existent');
+
 });
+
+
+Route::get('/not-active', [NotActiveController::class, 'index'])->name('not-active')->middleware('auth');
 
 Route::get('/send-welcome-email', [EmailController::class, 'sendWelcomeEmail']);
 

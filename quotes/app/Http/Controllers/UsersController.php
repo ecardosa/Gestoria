@@ -7,6 +7,8 @@ use Inertia\Inertia;
 use App\Models\User;
 use App\Models\Perfil;
 use App\Models\RegistroEntrada;
+use App\Mail\MessageRecived;
+use Illuminate\Support\Facades\Mail;
 
 
 class UsersController extends Controller
@@ -69,7 +71,7 @@ class UsersController extends Controller
      */
     public function show(string $id)
     {
-        return Inertia::render('Users/Show');
+        //
     }
 
     /**
@@ -94,6 +96,10 @@ class UsersController extends Controller
         ]);
 
         $user = User::find($id);
+        // v if the is_active was changed to true, send the email, if already was true, do nothing
+        if ($request->is_active == 1 && $user->is_active == 0) {
+            $user->sendEmailVerificationNotification();
+        }
         $user->name = $request->name;
         $user->email = $request->email;
         $user->idperfil = $request->idperfil;

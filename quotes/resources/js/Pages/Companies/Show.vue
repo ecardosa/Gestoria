@@ -54,9 +54,14 @@ const IdRegister = useForm({
 const deleteConcept = (concept) => {
     IdRegister.id = concept.id;
     if (confirm('Estàs segur/a de voler eliminar aquest concepte?')) {
-        IdRegister.delete(route('concepts-registers.destroy', concept.id))
+        IdRegister.delete(route('concepts-registers.destroy', concept.id), {
+            onSuccess: () => {
+                company.value.registro_concepto = company.value.registro_concepto.filter(c => c.id !== concept.id);
+            }
+        });
     }
 };
+
 
 // handle comment change
 const handleCommentChange = (event) => {
@@ -80,7 +85,7 @@ const handleCheckboxChange = (event) => {
     console.log(company.value.quota.aceptada);
     updateQuota();
 
-};  
+};
 
 // handle date acceptation change
 const handleDateAcceptationChange = (event) => {
@@ -129,7 +134,7 @@ const destroyQuota = () => {
 };
 
 const pdf = () => {
-    fetch(route('quotas.pdf', company.value.quota.id)) // Asegúrate de que esta ruta sea correcta
+    fetch(route('quotas.pdf', company.value.quota.id)) 
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -143,7 +148,7 @@ const pdf = () => {
             link.setAttribute('download', `${company.value.nomEmpresa}_${company.value.quota.id}.pdf`);
             document.body.appendChild(link);
             link.click();
-            document.body.removeChild(link); 
+            document.body.removeChild(link);
         })
         .catch(error => {
             console.error('Error al descargar el archivo PDF:', error);
@@ -186,7 +191,8 @@ const pdf = () => {
                                     </div>
                                 </div>
 
-                                <div class="actions flex items-center space-x-1 bg-gray-200 px-2 py-1 rounded-full">
+                                <div class="actions flex items-center space-x-1 bg-gray-200 px-2 py-1 rounded-full"
+                                    v-if="$page.props.user - is_admin">
                                     <EditCompanyModal :company="$page.props.company" />
                                     <button class="hover:bg-gray-400 rounded-full p-1"
                                         @click="deleteCompany($page.props.company)">
@@ -199,13 +205,14 @@ const pdf = () => {
                 </div>
                 <div class="bottom flex-auto overflow-auto relative"
                     v-if="$page.props.company.registro_concepto.length > 0">
-                    <div class="conceptos flex flex-col space-y-4 border-b-2 border-gray-200 sticky top-0  z-10 bg-white">
+                    <div
+                        class="conceptos flex flex-col space-y-4 border-b-2 border-gray-200 sticky top-0  z-10 bg-white">
                         <div class="concepto  p-4 rounded-lg">
                             <div class="flex justify-between">
                                 <h2 class="text-md font-bold w-1/2">Conceptes</h2>
                                 <p class="font-bold">Unitats</p>
                                 <p class="text-right font-bold mr-4 w-1/4">Preu</p>
-                                <AddConceptModal/>
+                                <AddConceptModal />
                             </div>
                         </div>
                     </div>
@@ -237,16 +244,17 @@ const pdf = () => {
                     </h2>
                     <span class="text-blue-800">-</span>
 
-                    <AddConceptModal/>
+                    <AddConceptModal />
                 </div>
             </div>
 
             <div class="right w-full md:w-1/2 flex flex-col space-y-10">
                 <div class="top flex-2 flex flex-col bg-gray-50 p-4 items-left rounded-xl">
                     <div class="info flex items-center space-x-4">
-                        <h1 class="text-md font-bold">Informació de la quota - {{ $page.props.company.quota.id }}</h1>  <div class="loader" :class="{ active: loader }">
+                        <h1 class="text-md font-bold">Informació de la quota - {{ $page.props.company.quota.id }}</h1>
+                        <div class="loader" :class="{ active: loader }">
 
-                        </div> 
+                        </div>
                     </div>
                     <div class="precio mt-2 flex flex-row space-x-4">
                         <div class="total w-full">
@@ -254,17 +262,25 @@ const pdf = () => {
                                 <div class="label">
                                     <span class="label-text">Quota resultant (en €): </span>
                                 </div>
-                                <input type="number" placeholder="Inserta una cuota aproximada..."
-                                    class="input w-full h-8 !text-black !bg-white"
-                                    :value="(company.registro_concepto.reduce((acc, concepto) => acc + concepto.unidades * concepto.concepto.precio, 0) / 12).toFixed(2)" disabled />
-                                </label>
+                                <input 
+                                type="number" placeholder="Inserta una cuota aproximada..."
+                                class="input w-full h-8 !text-black !bg-white"
+                                :value="(
+                                    (company.registro_concepto.reduce((acc, concepto) => {
+                                        const unidades = Number(concepto.unidades) || 0;
+                                        const precio = Number(concepto.concepto.precio) || 0;
+                                        return acc + (unidades * precio);
+                                    }, 0) / 12).toFixed(2)
+                                )" disabled />
+                            </label>
                         </div>
                         <div class="final w-full">
                             <div class="label">
                                 <span class="label-text">Quota final (en €):</span>
                             </div>
-                            <input type="number" placeholder="Inserta una quota aproximada..." @change="handleDataChange"
-                                class="input w-full h-8" v-model="$page.props.company.quota.importePropuesta"/>
+                            <input type="number" placeholder="Inserta una quota aproximada..."
+                                @change="handleDataChange" class="input w-full h-8"
+                                v-model="$page.props.company.quota.importePropuesta" />
                         </div>
                     </div>
                     <div class="dates">
@@ -274,7 +290,8 @@ const pdf = () => {
                                     <span class="label-text">Data de la proposta: </span>
                                 </div>
                                 <input type="date" placeholder="Inserta una quota aproximada..."
-                                    class="input w-full h-8" v-model="$page.props.company.quota.fechaPropuesta" @change="handleDateProposalChange"/>
+                                    class="input w-full h-8" v-model="$page.props.company.quota.fechaPropuesta"
+                                    @change="handleDateProposalChange" />
                             </label>
                         </div>
                         <div class="acceptaccio flex items-center justify-left flex-col">
@@ -284,14 +301,16 @@ const pdf = () => {
                             <div class="flex items-center flex-row justify-between w-full space-x-4">
                                 <div class="form-control ">
                                     <label class="label cursor-pointer gap-1">
-                                        <input type="checkbox" class="checkbox" :checked="$page.props.company.quota.aceptada"
+                                        <input type="checkbox" class="checkbox"
+                                            :checked="$page.props.company.quota.aceptada"
                                             @change="handleCheckboxChange" />
                                         <span class="label-text">Acceptada</span>
                                     </label>
                                 </div>
 
                                 <input type="date" placeholder="Inserta una quota aproximada..."
-                                    class="input w-full h-8" v-model="$page.props.company.quota.fechaAceptacion" @change="handleDateAcceptationChange"/>
+                                    class="input w-full h-8" v-model="$page.props.company.quota.fechaAceptacion"
+                                    @change="handleDateAcceptationChange" />
                             </div>
                         </div>
                     </div>
@@ -304,7 +323,7 @@ const pdf = () => {
                         <button @click="destroyQuota"
                             class="hover:bg-gray-400 rounded-xl p-2 flex items-center space-x-2 border border-gray-400">
                             <img src="/assets/img/expediente.svg" alt="PDF" class="w-5 h-5">
-                            <span class="text-sm font-bold">Nova quota</span>
+                            <span class="text-sm font-bold">Esborrar quota</span>
                         </button>
                     </div>
                 </div>
@@ -312,7 +331,8 @@ const pdf = () => {
                     <h2 class="text-md font-bold">Comentari</h2>
                     <div class="flex w-full h-full">
                         <textarea placeholder="Fes un comentari..." @change="handleCommentChange"
-                            class="textarea textarea-bordered textarea-lg w-full" v-model="$page.props.company.quota.comentarios"></textarea>
+                            class="textarea textarea-bordered textarea-lg w-full"
+                            v-model="$page.props.company.quota.comentarios"></textarea>
                     </div>
                 </div>
             </div>
@@ -345,36 +365,53 @@ const pdf = () => {
 }
 
 .loader {
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      position: relative;
-      display: none;
-      animation: rotate 1s linear infinite
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    position: relative;
+    display: none;
+    animation: rotate 1s linear infinite
+}
+
+.loader::before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    inset: 0px;
+    border-radius: 50%;
+    border: 1px solid #000000;
+    animation: prixClipFix 2s linear infinite;
+}
+
+@keyframes rotate {
+    100% {
+        transform: rotate(360deg)
     }
-    .loader::before {
-      content: "";
-      box-sizing: border-box;
-      position: absolute;
-      inset: 0px;
-      border-radius: 50%;
-      border: 1px solid #000000;
-      animation: prixClipFix 2s linear infinite ;
+}
+
+@keyframes prixClipFix {
+    0% {
+        clip-path: polygon(50% 50%, 0 0, 0 0, 0 0, 0 0, 0 0)
     }
 
-    @keyframes rotate {
-      100%   {transform: rotate(360deg)}
+    25% {
+        clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 0, 100% 0, 100% 0)
     }
 
-    @keyframes prixClipFix {
-        0%   {clip-path:polygon(50% 50%,0 0,0 0,0 0,0 0,0 0)}
-        25%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 0,100% 0,100% 0)}
-        50%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,100% 100%,100% 100%)}
-        75%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 100%)}
-        100% {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 0)}
+    50% {
+        clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 100% 100%, 100% 100%)
     }
 
-    .loader.active {
-      display: block;
+    75% {
+        clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 100%)
     }
+
+    100% {
+        clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 0)
+    }
+}
+
+.loader.active {
+    display: block;
+}
 </style>
