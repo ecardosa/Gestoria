@@ -17,6 +17,7 @@ class QuotasHistoryController extends Controller
         return Inertia::render('QuotaHistory/Index', [
             'quotasHistory' => $quotasHistory
         ]);
+        
     }
 
     /**

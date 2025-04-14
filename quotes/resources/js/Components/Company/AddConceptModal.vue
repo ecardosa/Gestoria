@@ -46,15 +46,22 @@ const updateConcepts = (newConcept) => {
 
 const submitNewConcept = () => {
     formConcept.post(route('concepts-registers.store'), {
-        onSuccess: (response) => {
-            updateConcepts(response.data);
-            closeModal();
+        onSuccess: ({ props }) => {
+            formConcept.reset();
+            updateConcepts(props.concept);
+            showNou.value = false;
+            showExistent.value = false;
+            editState.value = false;
+            console.log('Concepte afegit correctament');
+            // solucionar el problema de la recarga de la pagina
+            window.location.reload();
         },
         onError: (errors) => {
             console.error(errors);
         }
     });
 };
+
 
 const formExistent = useForm({
     companyId: companyId.value,

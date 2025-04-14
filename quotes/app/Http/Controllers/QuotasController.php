@@ -121,29 +121,51 @@ class QuotasController extends Controller
     return redirect()->route('companies.show', ['company' => $empresa->id]);
 }
 
-public function pdf (string $id)
-{   
+public function pdf(string $id)
+{
+    // Cargar la cuota con todas sus relaciones
     $quota = Quota::with('empresa.registro_concepto.concepto.tipoConcepto', 'empresa.perfil', 'tipoQuota')->find($id);
+    
+    // 💾 Guardar en el historial
+    $historico = new HistoricoQuota();
+    $historico->idQuota = $quota->id;
+    $historico->idEmpresa = $quota->idEmpresa;
+    $historico->nombreEmpresa = $quota->empresa->nomEmpresa;
+    $historico->nif = $quota->nif;
+    $historico->idTipoQuota = $quota->idTipoQuota;
+
+    // ⚠️ Acceder a nombreTipo de forma segura
+    $historico->nombreTipoQuota = optional($quota->tipoQuota)->nombreTipo ?? 'Sense tipus';
+
+    $historico->importePropuesta = $quota->importePropuesta;
+    $historico->fechaPropuesta = $quota->fechaPropuesta;
+    $historico->fechaAceptacion = $quota->fechaAceptacion;
+    $historico->fechaInicial = $quota->fechaInicial;
+    $historico->fechaFinal = now(); // ← Fecha de generación del PDF
+    $historico->aceptada = $quota->aceptada;
+    $historico->comentarios = $quota->comentarios;
+    $historico->save();
+
+    // 👇 Configurar PDF
     $company = 'Empresa';
     $date = now();
     $user = auth()->user();
-    // path of the logo img in public, assets, img
-    $logo = public_path('assets/img/logo.png');
+    $logo = public_path('img/logo.png');
 
     $data = [
         'quota' => $quota,
         'company' => $company,
-         'date' => $date,
-         'user' => $user,
-         'logo' => $logo,
-       
+        'date' => $date,
+        'user' => $user,
+        'logo' => $logo,
     ];
-        // return PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('reports.invoiceSell')->stream();
 
-    // $pdf = Pdf::loadView('tst', $data);
+    $pdf = Pdf::setOptions([
+        'isHtml5ParserEnabled' => true,
+        'isRemoteEnabled' => true
+    ])->loadView('tst', $data);
 
-    $pdf = Pdf::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('tst', $data);
-
-    return $pdf->download("{$company}_{$quota}.pdf");
+    return $pdf->download("{$company}_{$quota->empresa->nomEmpresa}_{$quota->id}.pdf");
 }
+
 }
