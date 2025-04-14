@@ -318,7 +318,7 @@ const pdf = () => {
                         <button @click="pdf"
                             class="hover:bg-gray-400 rounded-xl p-2 flex items-center space-x-2 border border-gray-400">
                             <img src="/assets/img/archivo-pdf.svg" alt="PDF" class="w-5 h-5">
-                            <span class="text-sm font-bold">Resum</span>
+                            <span class="text-sm font-bold">Crear quota</span>
                         </button>
                         <button @click="destroyQuota"
                             class="hover:bg-gray-400 rounded-xl p-2 flex items-center space-x-2 border border-gray-400">

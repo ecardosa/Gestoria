@@ -19,8 +19,9 @@
 <body style="margin: 0; padding: 0;">
     <div style="width: 80%; margin: 0 auto; padding: 20px;">
         <div style="margin-bottom: 40px;" class="title">
-            <!-- img path is $logo -->
-            <img src="{{ $logo }}" alt="Logo" style="width: 150px; height: auto; margin-bottom: 20px;">
+        
+            <img src="{{ $logo }}"
+            alt="Logo" style="width: 150px; height: auto; margin-bottom: 20px;">
             <div style="margin-bottom: 20px; display: flex; flex-direction: column; width: auto;">
                 <p style="margin: 0; font-weight: bold; font-size: 18px;">Assessoria Barceló</p>
                 <p style="margin: 0;">Passeig Nou, 9 2-C, 17600,<br>Figueres (GIRONA)</p>
@@ -46,26 +47,23 @@
                 Después de haber prestado nuestros servicios a la empresa {{$quota->empresa->nomEmpresa}} y de acuerdo con su petición, detallamos los servicios ofrecidos y los nuevos honorarios según la nueva situación laboral de la empresa.
             </p>
         </div>
-        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
-            <thead>
-                <tr>
-                    <th style="border: 1px solid #ddd; padding: 10px; text-align: left; background-color: #f5f5f5;">Concepto</th>
-                    <th style="border: 1px solid #ddd; padding: 10px; text-align: left; background-color: #f5f5f5;">Tipo</th>
-                    <th style="border: 1px solid #ddd; padding: 10px; text-align: left; background-color: #f5f5f5;">Unidades</th>
-                    <th style="border: 1px solid #ddd; padding: 10px; text-align: left; background-color: #f5f5f5;">Precio</th>
-                    <th style="border: 1px solid #ddd; padding: 10px; text-align: left; background-color: #f5f5f5;">Total</th>
-                </tr>
-            </thead>
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; table-layout: fixed;">
+    <thead>
+        <tr>
+            <th style="width: 40%; border: 1px solid #ddd; padding: 10px; text-align: left; background-color: #f5f5f5;">Concepto</th>
+            <th style="width: 20%; border: 1px solid #ddd; padding: 10px; text-align: left; background-color: #f5f5f5;">Tipo</th>
+            <th style="width: 20%; border: 1px solid #ddd; padding: 10px; text-align: left; background-color: #f5f5f5;">Unidades</th>
+            <th style="width: 20%; border: 1px solid #ddd; padding: 10px; text-align: left; background-color: #f5f5f5;">Precio</th>
+            <th style="width: 20%; border: 1px solid #ddd; padding: 10px; text-align: left; background-color: #f5f5f5;">Total</th>
+        </tr>
+    </thead>
             <tbody>
                 @foreach ($quota->empresa->registro_concepto as $registro)
                 <tr>
                     <td style="border: 1px solid #ddd; padding: 10px;">{{$registro->concepto->nombreConceptoLargo}}</td>
                     <td style="border: 1px solid #ddd; padding: 10px;">
-                        @if ($registro->concepto->tipoConcepto == null)
-                        Sin tipo
-                        @else
-                        {{$registro->concepto->tipoConcepto}}
-                        @endif
+                    {{ optional($registro->concepto->tipoConcepto)->nombreTipo ?? 'Sin tipo' }}
+
                     </td>
                     <td style="border: 1px solid #ddd; padding: 10px;">
                         {{$registro->unidades}}
@@ -84,7 +82,6 @@
         <div>
             <p>
                 La cuota mensual resultante de todas las prestaciones indicadas que se realizarán con la nueva situación laboral de la empresa sería de: 
-                <!-- sum all (unidades*precio) -->
                 <strong>
                     {{$quota->empresa->registro_concepto->sum(function($registro){
                         return $registro->concepto->precio * $registro->unidades;
