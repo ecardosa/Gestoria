@@ -101,4 +101,27 @@ class ConceptsRegistersController extends Controller
         $concept = RegistroConcepto::find($id);
         $concept->delete();
     }
+
+    public function storeExistent(Request $request)
+{
+    $request->validate([
+        'company_id' => 'required|exists:empresas,id',
+        'concept_id' => 'required|exists:conceptos,id',
+        'unity' => 'required|numeric|min:1',
+    ]);
+
+    $register = new RegistroConcepto();
+    $register->idEmpresa = $request->company_id;
+    $register->idConcepto = $request->concept_id;
+    $register->unidades = $request->unity;
+    $register->save();
+
+    // Cargar relaciones para devolverlo completo
+    $register->load('concepto.tipoConcepto');
+
+    return redirect()->back()->with('concept_added', $register);
+    // o si usas Inertia:
+    // return back()->with('concept_added', $register);
+}
+
 }

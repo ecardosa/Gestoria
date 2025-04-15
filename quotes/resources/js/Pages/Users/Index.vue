@@ -188,7 +188,7 @@ const AddUser = async () => {
                         <th>Perfil</th>
                         <th>Administrador</th>
                         <th>Dona't d'alta</th>
-                        <th>Última entrada</th>
+                        
                         <th></th>
                         <th>Accions</th>
                     </tr>
@@ -201,9 +201,7 @@ const AddUser = async () => {
                         <td>{{ user.perfil ? user.perfil.nomPerfil : 'Sense perfil' }}</td>
                         <td>{{ user.is_admin ? 'Sí' : 'No' }}</td>
                         <td>{{ user.is_active ? 'Sí' : 'No' }}</td>
-                        <td>
-                            {{ user.registroentrada.length ? user.registroentrada[0].fecha : 'Sense registre' }}
-                        </td>
+                       
                         <td class="text-right">
                             <button class="btn btn-outline" :value="user.id" @click="showModal(user)">
                                 Editar

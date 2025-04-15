@@ -12,6 +12,7 @@ const company = ref(props.company);
 const companyId = ref(props.company.id);
 const loader = ref(false);
 
+
 const previousCompany = computed(() => {
     const index = companies.value.findIndex(company => company.id === companyId.value);
     if (index === 0) {

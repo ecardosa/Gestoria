@@ -18,14 +18,11 @@ const showingNavigationDropdown = ref(false);
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
                     <div class="flex justify-between h-16">
                         <div class="flex">
-                            <Link href="/" class="shrink-0 flex items-center">
+                            <Link href="/companies"
+                            class="shrink-0 flex items-center">
                             <img src="/assets/img/logo.png" alt="Logo" class="h-16 w-auto" />
                             </Link>
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex text-white">
-                                <NavLink :href="route('dashboard')" :active="route().current('dashboard')"
-                                    class="text-white hover:text-orange-400">
-                                    Pàgina principal
-                                </NavLink>
                                 <NavLink :href="route('companies.index')" :active="route().current('companies.index')"
                                     class="text-white hover:text-orange-400">
                                     Empreses
@@ -87,7 +84,7 @@ const showingNavigationDropdown = ref(false);
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ms-6 bg-black">
-                            <!-- Settings Dropdown -->
+                          
                             <div class="ms-3 relative ">
                                 <Dropdown align="right" width="48">
                                     <template #trigger>

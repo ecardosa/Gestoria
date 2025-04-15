@@ -60,6 +60,7 @@ Route::middleware(['auth', 'notActive'])->group(function () {
     Route::resource('concepts-registers-history', ConceptRegisterHistoryController::class);
     Route::get('/quotas/{id}/pdf', [QuotasController::class, 'pdf'])->name('quotas.pdf');
     Route::post('/concepts-registers/add-existent', [ConceptRegisterController::class, 'addExistent'])->name('concepts-registers.add-existent');
+    Route::post('/concepts-registers/existent', [ConceptsRegistersController::class, 'storeExistent'])->name('concepts-registers.storeExistent');
 
 });
 

@@ -13,6 +13,7 @@ const showExistent = ref(false);
 const companyId = ref(props.company.id);
 const concepts = ref(props.concepts);
 const company = ref(props.company);
+const unitsMap = ref({});
 
 const showNewConcept = () => {
     showNou.value = true;
@@ -69,9 +70,28 @@ const formExistent = useForm({
     unity_existent: ''
 });
 
-const submitExistentConcept = (concept, unidades) => {
-    
+const submitExistentConcept = (concept) => {
+    const unidades = unitsMap.value[concept.id];
+
+    if (!unidades || unidades <= 0) {
+        alert('Introdueix una quantitat vàlida');
+        return;
+    }
+
+    useForm({
+        company_id: companyId.value,
+        concept_id: concept.id,
+        unity: unidades,
+    }).post(route('concepts-registers.storeExistent'), {
+        onSuccess: () => {
+            window.location.reload(); // o actualizar company.registro_concepto manualmente
+        },
+        onError: (errors) => {
+            console.error(errors);
+        }
+    });
 };
+
 </script>
 
 <template>
@@ -100,25 +120,26 @@ const submitExistentConcept = (concept, unidades) => {
         <Modal :show="editState" @close="closeModal">
             <div class="p-6">
                 <h2 class="text-lg font-medium text-gray-900 mb-6">
-                    Afegir concepte a {{ company.nomEmpresa }}
+                    Afegir concepte - {{ company.nomEmpresa }}
                 </h2>
 
                 <div v-if="showNou" class="nou">
                     <form class="mt-6 space-y-6" @submit.prevent="submitNewConcept">
                         <div>
+                       
                             <label for="name" class="block text-sm font-medium text-gray-700">
                                 Nom Curt
                             </label>
-                            <input v-model="formConcept.name" id="name" type="text" class="mt-1 block w-full" required
+                            <input v-model="formConcept.name" id="name" type="text" class="mt-1 block w-full " required
                                 autofocus autocomplete="name" />
 
-                            <label for="namelong" class="block text-sm font-medium text-gray-700">
+                            <label for="namelong" class="block text-sm font-medium text-gray-700 mt-4">
                                 Nom Llarg
                             </label>
-                            <input v-model="formConcept.namelong" id="namelong" type="text" class="mt-1 block w-full" required
-                                autofocus autocomplete="name" />
+                            <input v-model="formConcept.namelong" id="namelong" type="text" class="mt-1 block w-full"
+                                required autofocus autocomplete="name" />
 
-                            <label for="type_id" class="block text-sm font-medium text-gray-700">
+                            <label for="type_id" class="block text-sm font-medium text-gray-700 mt-4">
                                 Tipus de concepte
                             </label>
                             <select v-model="formConcept.type_id" id="type_id" name="type_id" class="mt-1 block w-full">
@@ -128,42 +149,46 @@ const submitExistentConcept = (concept, unidades) => {
                                 </option>
                             </select>
 
-                            <label for="price" class="block text-sm font-medium text-gray-700">
+                            <label for="price" class="block text-sm font-medium text-gray-700 mt-4">
                                 Preu en €
                             </label>
-                            <input v-model="formConcept.price" id="price" type="number" class="mt-1 block w-full" required
-                                autofocus autocomplete="price" />
+                            <input v-model="formConcept.price" id="price" type="number" class="mt-1 block w-full"
+                                required autofocus autocomplete="price" />
 
-                            <label for="unity" class="block text-sm font-medium text-gray-700">
+                            <label for="unity" class="block text-sm font-medium text-gray-700 mt-4">
                                 Unitats
                             </label>
-                            <input v-model="formConcept.unity" id="unity" type="number" class="mt-1 block w-full" required
-                                autofocus autocomplete="unity" />
+                            <input v-model="formConcept.unity" id="unity" type="number" class="mt-1 block w-full"
+                                required autofocus autocomplete="unity" />
                         </div>
 
                         <div class="mt-6">
-                            <button class="btn" type="submit">
+                            <button class="btn btn-outline "
+                             type="submit">
                                 Guardar
                             </button>
                         </div>
                     </form>
 
                 </div>
-                <div v-if="showExistent" class="existent overflow-y-auto h-[300px]">
-                    <div v-for="concept in concepts" :key="concept.id" class="p-2 mb-2 hover:bg-gray-100">
-                        <form class="flex justify-between items-center" @submit.prevent="submitExistentConcept(concept, formConcept.unity)">
+                <div v-if="showExistent" class="existent overflow-y-auto h-[300px] space-y-4">
+                    <div v-for="concept in concepts" :key="concept.id" class="p-2 mb-2 hover:bg-gray-100 border-b border-gray-200">
+                        <form class="flex justify-between items-center"
+                            @submit.prevent="submitExistentConcept(concept, formConcept.unity)">
                             <p class="w-36">
                                 {{ concept.nombreConceptoCorto }}</p>
-                            <p class="w-36">
+                            <p class="w-24">
                                 {{ concept.tipo_concepto.nombreTipo }}
                             </p>
                             <p class="w-24">{{ concept.precio }}€</p>
 
                             <div class="tooltip  tooltip-left" data-tip="Afegir unitats">
-                            <input type="number" class="w-16 rounded-md border border-gray-300" placeholder="0" :id="concept.id" />
+                                <input type="number" class="w-16 rounded-md border border-gray-300 " placeholder="0"
+                                    :value="unitsMap[concept.id] || ''"
+                                    @input="e => unitsMap[concept.id] = parseInt(e.target.value)" />
                             </div>
-                            <button class="btn" type="submit">
-                                Add
+                            <button class="btn btn-outline" type="submit">
+                                Afegir
                             </button>
                         </form>
                     </div>
